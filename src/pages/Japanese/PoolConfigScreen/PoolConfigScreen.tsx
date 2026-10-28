@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react'
-import { Button, Slider, ToggleChip, Typography } from '../../../components'
+import { Box, Button, Slider, ToggleChip, Typography, PracticeScreen } from '../../../components'
 import { MIN_CARDS } from '../../../modules/japanese/data/hiragana'
-import { PracticeScreen } from '../PracticeScreen/PracticeScreen'
 import styles from './PoolConfigScreen.module.css'
 
 export interface PoolChip {
@@ -58,11 +57,11 @@ export function PoolConfigScreen({
 
   return (
     <PracticeScreen backTo={backTo} backLabel="Voltar" badge={badge} title={title} subtitle={subtitle}>
-      <section className={styles.section} aria-labelledby="pool-chips">
+      <Box className={styles.section} aria-labelledby="pool-chips">
         <Typography id="pool-chips" variant="label" uppercase>
           {chipsLabel}
         </Typography>
-        <div className={styles.chips} role="group" aria-label={chipsLabel}>
+        <Box as="div" className={styles.chips} role="group" aria-label={chipsLabel}>
           {chips.map((chip) => (
             <ToggleChip
               key={chip.id}
@@ -73,9 +72,9 @@ export function PoolConfigScreen({
               onClick={() => onToggle(chip.id)}
             />
           ))}
-        </div>
-      </section>
-      <section className={styles.section} aria-labelledby="pool-count">
+        </Box>
+      </Box>
+      <Box className={styles.section} aria-labelledby="pool-count">
         <Typography id="pool-count" variant="label" uppercase>
           {sliderSectionLabel}
         </Typography>
@@ -90,7 +89,7 @@ export function PoolConfigScreen({
         <Typography variant="caption" role={canStart ? undefined : 'alert'} color={canStart ? 'text-muted' : 'red-solid'}>
           {canStart ? describePool(count, poolSize, minCount) : emptyMessage}
         </Typography>
-      </section>
+      </Box>
       <Button fullWidth disabled={!canStart} onClick={() => onStart(count)}>
         Começar
       </Button>

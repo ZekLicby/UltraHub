@@ -1,4 +1,4 @@
-import { Atom, Code, House, Landmark, Languages, Pencil, type LucideIcon } from 'lucide-react'
+import { Atom, Code, House, Landmark, Languages, Pencil, Puzzle, type LucideIcon } from 'lucide-react'
 
 export interface PageDefinition {
   id: string
@@ -40,6 +40,14 @@ export const navigation: NavigationGroup[] = [
         title: 'React',
         description: 'Exercícios e revisão dos conceitos de React.',
       },
+      {
+        id: 'heuristics',
+        path: '/tech/heuristics',
+        label: 'Heurísticas',
+        icon: Puzzle,
+        title: 'Heurísticas de Nielsen',
+        description: 'Aprenda a reconhecer as 10 heurísticas de usabilidade.',
+      },
     ],
   },
   {
@@ -71,6 +79,15 @@ export const japanesePaths = {
   result: `${practiceBase}/result`,
 } as const
 
+const heuristicsBase = '/tech/heuristics'
+
+export const heuristicsPaths = {
+  home: heuristicsBase,
+  practice: `${heuristicsBase}/practice`,
+  game: `${heuristicsBase}/game`,
+  result: `${heuristicsBase}/result`,
+} as const
+
 const detailPage = (
   id: string,
   path: string,
@@ -96,6 +113,12 @@ export const japaneseDetailPages: PageDefinition[] = [
   detailPage('japanese-result', japanesePaths.result, 'Resultado', 'Revise seus acertos e erros.'),
 ]
 
+export const heuristicsDetailPages: PageDefinition[] = [
+  detailPage('heuristics-practice', heuristicsPaths.practice, 'Heurísticas: o jogo', 'Identifique a heurística de Nielsen de cada situação.'),
+  detailPage('heuristics-game', heuristicsPaths.game, 'Partida', 'Responda as perguntas e navegue entre elas.', true),
+  detailPage('heuristics-result', heuristicsPaths.result, 'Resultado', 'Veja sua pontuação e o gabarito completo.'),
+]
+
 export const notFoundPage: PageDefinition = {
   id: 'not-found',
   path: '*',
@@ -109,6 +132,7 @@ export const allPages: PageDefinition[] = [
   homePage,
   ...navigation.flatMap((group) => group.pages),
   ...japaneseDetailPages,
+  ...heuristicsDetailPages,
 ]
 
 export const findPageByPath = (pathname: string): PageDefinition | undefined => {

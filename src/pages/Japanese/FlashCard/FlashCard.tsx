@@ -1,4 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react'
+import { Box } from '../../../components'
 import styles from './FlashCard.module.css'
 
 export interface FlashCardProps extends HTMLAttributes<HTMLDivElement> {
@@ -8,13 +9,18 @@ export interface FlashCardProps extends HTMLAttributes<HTMLDivElement> {
 
 export function FlashCard({ status, corner, className, children, ...rest }: FlashCardProps) {
   return (
-    <div
+    <Box
+      as="div"
       className={[styles.card, className].filter(Boolean).join(' ')}
       data-status={status}
       {...rest}
     >
-      {corner && <div className={styles.corner}>{corner}</div>}
+      {corner && (
+        <Box as="div" className={styles.corner}>
+          {corner}
+        </Box>
+      )}
       {children}
-    </div>
+    </Box>
   )
 }

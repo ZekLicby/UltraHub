@@ -1,7 +1,7 @@
-import type { ComponentPropsWithRef } from 'react'
+import type { ComponentPropsWithRef, ElementType } from 'react'
 
-export type BoxProps = ComponentPropsWithRef<'section'>
+export type BoxProps = ComponentPropsWithRef<'section'> & { as?: ElementType }
 
-export function Box(props: BoxProps) {
-  return <section {...props} />
+export function Box({ as: Component = 'section', ...props }: BoxProps) {
+  return <Component {...props} />
 }

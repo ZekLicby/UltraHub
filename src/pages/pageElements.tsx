@@ -1,4 +1,8 @@
 import type { ReactElement } from 'react'
+import { HeuristicsGamePage } from './Heuristics/HeuristicsGamePage/HeuristicsGamePage'
+import { HeuristicsPage } from './Heuristics/HeuristicsPage/HeuristicsPage'
+import { HeuristicsPracticePage } from './Heuristics/HeuristicsPracticePage/HeuristicsPracticePage'
+import { HeuristicsResultPage } from './Heuristics/HeuristicsResultPage/HeuristicsResultPage'
 import { JapanesePage } from './Japanese/JapanesePage/JapanesePage'
 import { GamePage } from './Japanese/GamePage/GamePage'
 import { JapanesePracticePage } from './Japanese/JapanesePracticePage/JapanesePracticePage'
@@ -10,6 +14,10 @@ import { WordsHomePage } from './Japanese/WordsHomePage/WordsHomePage'
 import { PlaceholderPage } from './PlaceholderPage'
 
 export const pageElements: Record<string, ReactElement> = {
+  heuristics: <HeuristicsPage />,
+  'heuristics-practice': <HeuristicsPracticePage />,
+  'heuristics-game': <HeuristicsGamePage />,
+  'heuristics-result': <HeuristicsResultPage />,
   japanese: <JapanesePage />,
   'japanese-practice': <JapanesePracticePage />,
   'japanese-letters': <LettersHomePage />,

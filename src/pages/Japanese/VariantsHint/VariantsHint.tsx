@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Popover, PopoverContent, PopoverTrigger, Typography } from '../../../components'
+import { IconButton, Popover, PopoverContent, PopoverTrigger, Typography } from '../../../components'
 import { WORDS, type Word, type WordMode } from '../../../modules/japanese/data/words'
 import { formatAnswerList } from '../../../modules/japanese/game/answers'
 import { hasSeen, markSeen } from '../../../utils/seenFlag'
@@ -29,15 +29,17 @@ export function VariantsHint({ word, mode }: VariantsHintProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <button
-          type="button"
+        <IconButton
+          label="Variações aceitas: veja um exemplo"
+          size="sm"
           className={styles.trigger}
           data-pulse={pulse || undefined}
-          aria-label="Variações aceitas: veja um exemplo"
           onMouseDown={(event) => event.preventDefault()}
         >
-          🔄
-        </button>
+          <Typography as="span" size="sm" color="inherit" aria-hidden="true">
+            🔄
+          </Typography>
+        </IconButton>
       </PopoverTrigger>
       <PopoverContent
         className={styles.content}
@@ -53,7 +55,11 @@ export function VariantsHint({ word, mode }: VariantsHintProps) {
         </Typography>
         {example && (
           <Typography variant="caption">
-            Exemplo: para <span lang="ja">{example.japanese}</span>, vale{' '}
+            Exemplo: para{' '}
+            <Typography as="span" variant="caption" color="inherit" lang="ja">
+              {example.japanese}
+            </Typography>
+            , vale{' '}
             {formatAnswerList(example.acceptedAnswers[mode])}.
           </Typography>
         )}

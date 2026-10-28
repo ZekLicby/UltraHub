@@ -1,5 +1,8 @@
 import type { ReactNode } from 'react'
-import { BackLink, Tag, Typography } from '../../../components'
+import { BackLink } from '../BackLink/BackLink'
+import { Box } from '../Box/Box'
+import { Tag } from '../Tag/Tag'
+import { Typography } from '../Typography/Typography'
 import styles from './PracticeScreen.module.css'
 
 export interface PracticeScreenProps {
@@ -20,10 +23,10 @@ export function PracticeScreen({
   children,
 }: PracticeScreenProps) {
   return (
-    <div className={styles.screen}>
+    <Box as="div" className={styles.screen}>
       {backTo && <BackLink to={backTo}>{backLabel ?? 'Voltar'}</BackLink>}
-      <section className={styles.panel}>
-        <header className={styles.header}>
+      <Box className={styles.panel}>
+        <Box as="header" className={styles.header}>
           {badge && (
             <Tag size="sm" color="blue">
               {badge}
@@ -33,9 +36,9 @@ export function PracticeScreen({
             {title}
           </Typography>
           {subtitle && <Typography variant="caption">{subtitle}</Typography>}
-        </header>
+        </Box>
         {children}
-      </section>
-    </div>
+      </Box>
+    </Box>
   )
 }
