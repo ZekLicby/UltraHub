@@ -76,6 +76,13 @@ Fonte única dos valores de design; **sempre use esses tokens** em vez de valore
 - Telas em `src/pages/Heuristics/<Nome>/`; o fluxo é testado em `HeuristicsGame/HeuristicsGame.stories.tsx` e os mockups/banco de perguntas em `mockups/Mockups.stories.tsx`.
 - Compartilhados com o módulo Japonês: `PracticeScreen`, `ModuleHome`, `Modal` (`components/`) e `utils/shuffle.ts`. Nas respostas, o jogo não mostra certo/errado durante a partida (só no gabarito); é possível voltar e trocar a resposta pelos quadradinhos.
 
+### Quizzes de Tech: TypeScript, Node.js e POO (port do pooGame)
+
+- Três jogos independentes no grupo Tech, um por categoria (`QUIZ_CATEGORIES` em `src/modules/codeQuest/categories.ts`), cada um com `/tech/<categoria>` (`ModuleHome`), `/practice` (modos Rápido/Treino/Desafio + personalizado com dificuldade e quantidade), `/game` (imersiva, tela cheia) e `/result`. Caminhos por `quizPaths(categoria)` e páginas de detalhe geradas em `navigation/pages.ts`; os elementos por categoria são gerados em `pages/pageElements.tsx`.
+- Lógica e dados em `src/modules/codeQuest/`: `data/questions.ts` (180 perguntas, 60 por categoria), `game/` (`quiz.ts` filtra por categoria/dificuldade e monta a sessão com alternativas embaralhadas e ids estáveis; `labels.ts`; `reducer.ts` + `QuizProvider`/`quizContext.ts`). A sessão guarda a `category`; `/game` e `/result` de outra categoria ou sem sessão redirecionam para o `/practice`.
+- Telas em `src/pages/Quiz/<Nome>/` (recebem `category` por prop); fluxo testado em `QuizGame/QuizGame.stories.tsx` (o play lê a pergunta na tela e responde pelo dataset).
+- Componentes genéricos criados: `CodeBlock`, `Callout` (dica/feedback), `RadioCardGroup` (radios nativos como cartões), `Divider`; `ChoiceButton` ganhou `status` (`correct`/`incorrect`).
+
 ### Storybook
 
 - Config em `.storybook/`; `preview.tsx` importa `../src/index.css` para que as stories usem o CSS real. Se o app ganhar providers, portais ou chamadas de rede, adicione-os ali (decorators/MSW) em vez de contornar em cada story.

@@ -1,4 +1,9 @@
 import type { ReactElement } from 'react'
+import { QUIZ_CATEGORIES } from '../modules/codeQuest/categories'
+import { QuizGamePage } from './Quiz/QuizGamePage/QuizGamePage'
+import { QuizHomePage } from './Quiz/QuizHomePage/QuizHomePage'
+import { QuizPracticePage } from './Quiz/QuizPracticePage/QuizPracticePage'
+import { QuizResultPage } from './Quiz/QuizResultPage/QuizResultPage'
 import { HeuristicsGamePage } from './Heuristics/HeuristicsGamePage/HeuristicsGamePage'
 import { HeuristicsPage } from './Heuristics/HeuristicsPage/HeuristicsPage'
 import { HeuristicsPracticePage } from './Heuristics/HeuristicsPracticePage/HeuristicsPracticePage'
@@ -14,6 +19,14 @@ import { WordsHomePage } from './Japanese/WordsHomePage/WordsHomePage'
 import { PlaceholderPage } from './PlaceholderPage'
 
 export const pageElements: Record<string, ReactElement> = {
+  ...Object.fromEntries(
+    QUIZ_CATEGORIES.flatMap((category) => [
+      [category.id, <QuizHomePage category={category.id} />],
+      [`${category.id}-practice`, <QuizPracticePage category={category.id} />],
+      [`${category.id}-game`, <QuizGamePage category={category.id} />],
+      [`${category.id}-result`, <QuizResultPage category={category.id} />],
+    ]),
+  ),
   heuristics: <HeuristicsPage />,
   'heuristics-practice': <HeuristicsPracticePage />,
   'heuristics-game': <HeuristicsGamePage />,

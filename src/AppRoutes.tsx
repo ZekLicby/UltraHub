@@ -1,5 +1,6 @@
 import { Route, Routes } from 'react-router'
 import { AppShell } from './layout'
+import { QuizProvider } from './modules/codeQuest/game/QuizProvider'
 import { HeuristicsGameProvider } from './modules/heuristics/game/HeuristicsGameProvider'
 import { GameProvider } from './modules/japanese/game/GameProvider'
 import { mockNotifications } from './mocks/notifications'
@@ -14,21 +15,23 @@ export function AppRoutes() {
   return (
     <GameProvider>
       <HeuristicsGameProvider>
-        <Routes>
-          <Route element={<AppShell groups={navigation} notifications={mockNotifications} user={user} />}>
-            <Route index element={<HomePage />} />
-            {allPages
-              .filter((page) => page.id !== homePage.id)
-              .map((page) => (
-                <Route
-                  key={page.id}
-                  path={page.path}
-                  element={pageElements[page.id] ?? placeholderElement}
-                />
-              ))}
-            <Route path="*" element={<NotFoundPage />} />
-          </Route>
-        </Routes>
+        <QuizProvider>
+          <Routes>
+            <Route element={<AppShell groups={navigation} notifications={mockNotifications} user={user} />}>
+              <Route index element={<HomePage />} />
+              {allPages
+                .filter((page) => page.id !== homePage.id)
+                .map((page) => (
+                  <Route
+                    key={page.id}
+                    path={page.path}
+                    element={pageElements[page.id] ?? placeholderElement}
+                  />
+                ))}
+              <Route path="*" element={<NotFoundPage />} />
+            </Route>
+          </Routes>
+        </QuizProvider>
       </HeuristicsGameProvider>
     </GameProvider>
   )

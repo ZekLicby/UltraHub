@@ -1,3 +1,5 @@
+import { QUIZ_CATEGORIES } from '../modules/codeQuest/categories'
+import type { QuestionCategory } from '../modules/codeQuest/data/questions'
 import { Atom, Code, House, Landmark, Languages, Pencil, Puzzle, type LucideIcon } from 'lucide-react'
 
 export interface PageDefinition {
@@ -48,6 +50,14 @@ export const navigation: NavigationGroup[] = [
         title: 'Heurísticas de Nielsen',
         description: 'Aprenda a reconhecer as 10 heurísticas de usabilidade.',
       },
+      ...QUIZ_CATEGORIES.map((category) => ({
+        id: category.id,
+        path: `/tech/${category.id}`,
+        label: category.label,
+        icon: category.icon,
+        title: category.title,
+        description: category.description,
+      })),
     ],
   },
   {
@@ -88,6 +98,16 @@ export const heuristicsPaths = {
   result: `${heuristicsBase}/result`,
 } as const
 
+export const quizPaths = (category: QuestionCategory) => {
+  const base = `/tech/${category}`
+  return {
+    home: base,
+    practice: `${base}/practice`,
+    game: `${base}/game`,
+    result: `${base}/result`,
+  }
+}
+
 const detailPage = (
   id: string,
   path: string,
@@ -119,6 +139,15 @@ export const heuristicsDetailPages: PageDefinition[] = [
   detailPage('heuristics-result', heuristicsPaths.result, 'Resultado', 'Veja sua pontuação e o gabarito completo.'),
 ]
 
+export const quizDetailPages: PageDefinition[] = QUIZ_CATEGORIES.flatMap((category) => {
+  const paths = quizPaths(category.id)
+  return [
+    detailPage(`${category.id}-practice`, paths.practice, `${category.label}: escolha seu treino`, 'Escolha um modo pronto ou monte seu próprio quiz.'),
+    detailPage(`${category.id}-game`, paths.game, 'Quiz', 'Responda as perguntas uma a uma.', true),
+    detailPage(`${category.id}-result`, paths.result, 'Resultado', 'Veja seu desempenho e treine seus erros.'),
+  ]
+})
+
 export const notFoundPage: PageDefinition = {
   id: 'not-found',
   path: '*',
@@ -133,6 +162,7 @@ export const allPages: PageDefinition[] = [
   ...navigation.flatMap((group) => group.pages),
   ...japaneseDetailPages,
   ...heuristicsDetailPages,
+  ...quizDetailPages,
 ]
 
 export const findPageByPath = (pathname: string): PageDefinition | undefined => {
