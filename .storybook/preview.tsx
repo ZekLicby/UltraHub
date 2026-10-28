@@ -1,4 +1,5 @@
 import type { Preview } from '@storybook/react-vite'
+import { MemoryRouter } from 'react-router'
 import '../src/index.css'
 import { injectTokens } from '../src/tokens'
 
@@ -32,7 +33,9 @@ const preview: Preview = {
       const theme = context.globals.theme as string
       if (theme === 'system') delete document.documentElement.dataset.theme
       else document.documentElement.dataset.theme = theme
+      const initialEntries = (context.parameters.initialEntries as string[] | undefined) ?? ['/']
       return (
+        <MemoryRouter initialEntries={initialEntries}>
         <div
           style={{
             background: 'var(--color-surface)',
@@ -42,6 +45,7 @@ const preview: Preview = {
         >
           <Story />
         </div>
+        </MemoryRouter>
       )
     },
   ],
