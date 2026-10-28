@@ -50,7 +50,7 @@ Fonte única dos valores de design; **sempre use esses tokens** em vez de valore
 
 ### Componentes (`src/components/`)
 
-`Box` (apenas um `<section>` que repassa props, incluindo `style`; sem props de layout), `Typography`, `Button`, `Input`, `Select`, `ProgressBar`, `WindowFrame` e `Tag`, cada um em sua pasta com `.tsx`, `.module.css` (quando precisa de estados CSS) e `.stories.tsx`. Eles leem variáveis CSS geradas dos tokens (`injectTokens()` em `main.tsx` e em `.storybook/preview.tsx`; tema escuro via sistema ou `data-theme` no `<html>`). Componentes novos devem seguir o mesmo padrão e usar só tokens. Levantamento e pendências em `docs/resultados/componentes-padronizaveis.md`.
+`Box` (só repassa props para um elemento, `<section>` por padrão, ou o da prop `as`; sem props de layout, o estilo vem de `style`/CSS Module), `Typography`, `Button`, `Input`, `Select`, `ProgressBar`, `WindowFrame` e `Tag`, cada um em sua pasta com `.tsx`, `.module.css` (quando precisa de estados CSS) e `.stories.tsx`. Eles leem variáveis CSS geradas dos tokens (`injectTokens()` em `main.tsx` e em `.storybook/preview.tsx`; tema escuro via sistema ou `data-theme` no `<html>`). Componentes novos devem seguir o mesmo padrão e usar só tokens. Levantamento e pendências em `docs/resultados/componentes-padronizaveis.md`.
 
 ### Layout e navegação
 
@@ -65,9 +65,16 @@ Fonte única dos valores de design; **sempre use esses tokens** em vez de valore
 
 - Lógica e dados em `src/modules/japanese/`: `data/` (grupos de hiragana e palavras, em TS), `game/` (`deck.ts`, `pools.ts`, `answers.ts` puros; `reducer.ts` + `GameProvider`/`gameContext.ts` com `useReducer` + Context; o provider envolve as rotas em `AppRoutes`).
 - Telas em `src/pages/Japanese/<Nome>/` (uma pasta por componente, como em `components/`), uma rota por tela (`japanesePaths` em `navigation/pages.ts`): módulos → letras/palavras → configuração (modo livre) ou aleatório → partida (`/practice/game`) → resultado. `/game` e `/result` sem sessão redirecionam para os módulos; as telas iniciais de Letras e Palavras limpam a sessão ao montar.
-- Componentes genéricos criados para o jogo: `ActionCard` (link, botão ou estático), `ToggleChip`, `Slider`, `ConfirmDialog` (`@radix-ui/react-alert-dialog`), `BackLink`; `Input` ganhou `success`.
+- Componentes genéricos criados para o jogo: `CardGrid` (grade de cartões), `ChoiceButton` (alternativa selecionável ou quadradinho de navegação), `ActionCard` (link, botão ou estático), `ToggleChip`, `Slider`, `ConfirmDialog` (`@radix-ui/react-alert-dialog`), `BackLink`; `Input` ganhou `success`.
 - O fluxo completo é testado em `src/pages/Japanese/JapaneseGame/JapaneseGame.stories.tsx` (o play lê o card na tela e responde pelo dataset).
 - A pasta `learnJP/` continua só como referência; só `localStorage` é permitido (o jogo não persiste nada além do tema).
+
+### Módulo Heurísticas de Nielsen (port do heuristicasNielsen)
+
+- Página na sidebar (grupo Tech): `/tech/heuristics` (`ModuleHome`: Suas atividades + Estude e pratique), `/practice` (intro, resumo das heurísticas, quantidade 5–40), `/game` (imersiva, tela cheia) e `/result` (pontuação + gabarito completo).
+- Lógica e dados em `src/modules/heuristics/`: `data/` (as 10 heurísticas e 40 perguntas, em TS, chaves em inglês), `game/` (`rounds.ts` monta as rodadas positivas, negativas e diretas; `reducer.ts` + `HeuristicsGameProvider`/`gameContext.ts`) e `mockups/` (os 40 mockups viraram componentes React sobre `WindowFrame`, com CSS por tokens, então seguem o tema claro/escuro).
+- Telas em `src/pages/Heuristics/<Nome>/`; o fluxo é testado em `HeuristicsGame/HeuristicsGame.stories.tsx` e os mockups/banco de perguntas em `mockups/Mockups.stories.tsx`.
+- Compartilhados com o módulo Japonês: `PracticeScreen`, `ModuleHome`, `Modal` (`components/`) e `utils/shuffle.ts`. Nas respostas, o jogo não mostra certo/errado durante a partida (só no gabarito); é possível voltar e trocar a resposta pelos quadradinhos.
 
 ### Storybook
 
@@ -79,6 +86,7 @@ Fonte única dos valores de design; **sempre use esses tokens** em vez de valore
 
 ## Preferências de trabalho
 
+- **Componentes base primeiro**: antes de qualquer elemento HTML cru (`div`, `section`, `p`, `span`, `button`...) ou de um componente novo, use os de `src/components/` (`Box` para contêineres e agrupamentos, `Typography` para textos, `Button`/`IconButton` para ações, `Tag`, `Input`, `ProgressBar`...). Se o base não cobrir o caso (ex.: precisar de outro elemento HTML ou de uma prop), evolua o componente base em vez de contorná-lo com HTML cru ou estilos inline repetidos.
 - **Persistência apenas em `localStorage`** até existirem atividades que implementem chamadas a backend. Não crie APIs, banco, cookies de sessão nem libs de dados remotos antes disso. Envolva leitura e escrita em `try/catch` (o storage pode estar bloqueado) e use chaves com prefixo `ultrahub-` (ex.: `ultrahub-theme`).
 - **Sem comentários no código**, a menos que uma regra muito específica seja implementada ou um aviso seja necessário (ex.: componente comentado que poderá ser reativado por decisão futura). Não use comentários para descrever o que o código já diz; prefira bons nomes. Exceção atual: o `font-size: 62.5%` em `src/index.css`.
 - **Todo o código em inglês**: identificadores (variáveis, funções, objetos, chaves, props, nomes de stories, classes CSS) e comentários. Só ficam em português os textos que o usuário final enxerga (labels, mensagens, conteúdo de exemplo nas stories) e a documentação em `docs/`/`CLAUDE.md`.

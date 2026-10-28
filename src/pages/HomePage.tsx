@@ -1,39 +1,18 @@
-import { Box, Typography } from '../components'
+import { Box, CardGrid, Typography } from '../components'
 import { navigation } from '../navigation/pages'
+import styles from './HomePage.module.css'
 
 export function HomePage() {
   return (
     <>
       {navigation.map((group) => (
-        <Box
-          key={group.id}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 'var(--space-3)',
-            marginBottom: 'var(--space-6)',
-          }}
-        >
+        <Box key={group.id} className={styles.group}>
           <Typography variant="subtitle">{group.label}</Typography>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(24rem, 1fr))',
-              gap: 'var(--space-4)',
-            }}
-          >
+          <CardGrid>
             {[1, 2, 3].map((n) => (
-              <div
-                key={n}
-                style={{
-                  height: '16rem',
-                  border: '1px solid var(--color-border)',
-                  borderRadius: 'var(--radius-lg)',
-                  background: 'var(--color-surface)',
-                }}
-              />
+              <Box as="div" key={n} className={styles.placeholder} />
             ))}
-          </div>
+          </CardGrid>
         </Box>
       ))}
     </>

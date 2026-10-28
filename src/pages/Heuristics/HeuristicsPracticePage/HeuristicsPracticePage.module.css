@@ -1,0 +1,11 @@
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.config {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}

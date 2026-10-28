@@ -1,6 +1,7 @@
 import { HIRAGANA_GROUPS, MAX_CARDS, MIN_CARDS, type Letter } from '../data/hiragana'
 import { WORDS, WORD_CATEGORIES, WORD_MAX_CARDS, type Word, type WordType } from '../data/words'
-import { randomCount, shuffle } from './deck'
+import { shuffle } from '../../../utils/shuffle'
+import { randomCount } from './deck'
 
 export const getLettersForGroups = (groupIds: readonly string[]): Letter[] =>
   HIRAGANA_GROUPS.filter((group) => groupIds.includes(group.id)).flatMap((group) => group.chars)

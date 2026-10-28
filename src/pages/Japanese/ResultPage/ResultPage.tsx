@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router'
-import { Button, Typography } from '../../../components'
+import { Box, Button, Typography, PracticeScreen } from '../../../components'
 import { expectedWordAnswer } from '../../../modules/japanese/game/answers'
-import { shuffle } from '../../../modules/japanese/game/deck'
+import { shuffle } from '../../../utils/shuffle'
 import { useGame } from '../../../modules/japanese/game/gameContext'
 import type { Session } from '../../../modules/japanese/game/types'
 import { japanesePaths } from '../../../navigation/pages'
 import { enterFullscreen } from '../../../utils/fullscreen'
-import { PracticeScreen } from '../PracticeScreen/PracticeScreen'
 import styles from './ResultPage.module.css'
 
 const moduleBadge = (session: Session): string =>
@@ -33,10 +32,14 @@ function ReviewRows({ session }: { session: Session }) {
   return session.answers.map((answer, index) => (
     <tr key={index} data-incorrect={!answer.correct || undefined}>
       <td>
-        <span className={styles.char} lang="ja">
+        <Typography as="span" size="xl" color="inherit" lang="ja">
           {answer.word.japanese}
-        </span>
-        {session.mode === 'sound' && <div className={styles.expected}>{answer.word.meaning}</div>}
+        </Typography>
+        {session.mode === 'sound' && (
+          <Typography as="div" variant="caption">
+            {answer.word.meaning}
+          </Typography>
+        )}
       </td>
       <td>{answer.userAnswer || '(vazio)'}</td>
       <td>
@@ -49,18 +52,20 @@ function ReviewRows({ session }: { session: Session }) {
 function ResultMark({ correct, expected }: { correct: boolean; expected: string }) {
   if (correct) {
     return (
-      <span className={styles.markCorrect} aria-label="Correto">
+      <Typography as="span" weight="bold" color="green-solid" aria-label="Correto">
         ✓
-      </span>
+      </Typography>
     )
   }
   return (
-    <div>
-      <span className={styles.markIncorrect} aria-label="Incorreto">
+    <Box as="div">
+      <Typography as="span" weight="bold" color="red-solid" aria-label="Incorreto">
         ✗
-      </span>
-      <div className={styles.expected}>esperado: {expected}</div>
-    </div>
+      </Typography>
+      <Typography as="div" variant="caption">
+        esperado: {expected}
+      </Typography>
+    </Box>
   )
 }
 
@@ -100,20 +105,28 @@ export function ResultPage() {
 
   return (
     <PracticeScreen badge={moduleBadge(session)} title="Partida finalizada!">
-      <div className={styles.summary}>
-        <div className={styles.stat} data-kind="correct">
-          <span className={styles.statValue}>{correctCount}</span>
-          <span className={styles.statLabel}>Acertos</span>
-        </div>
-        <div className={styles.stat} data-kind="incorrect">
-          <span className={styles.statValue}>{incorrectCount}</span>
-          <span className={styles.statLabel}>Erros</span>
-        </div>
-      </div>
+      <Box as="div" className={styles.summary}>
+        <Box as="div" className={styles.stat} data-kind="correct">
+          <Typography as="span" size="2xl" weight="bold" color="inherit">
+            {correctCount}
+          </Typography>
+          <Typography as="span" size="sm" weight="semibold" color="inherit">
+            Acertos
+          </Typography>
+        </Box>
+        <Box as="div" className={styles.stat} data-kind="incorrect">
+          <Typography as="span" size="2xl" weight="bold" color="inherit">
+            {incorrectCount}
+          </Typography>
+          <Typography as="span" size="sm" weight="semibold" color="inherit">
+            Erros
+          </Typography>
+        </Box>
+      </Box>
       <Typography variant="label" uppercase>
         Revisão
       </Typography>
-      <div className={styles.tableWrap}>
+      <Box as="div" className={styles.tableWrap}>
         <table className={styles.table}>
           <thead>
             <tr>
@@ -126,13 +139,13 @@ export function ResultPage() {
             <ReviewRows session={session} />
           </tbody>
         </table>
-      </div>
-      <div className={styles.actions}>
+      </Box>
+      <Box as="div" className={styles.actions}>
         {incorrectCount > 0 && <Button onClick={trainErrors}>Treinar erros</Button>}
         <Button variant="outline" color="gray" onClick={newGame}>
           Nova partida
         </Button>
-      </div>
+      </Box>
     </PracticeScreen>
   )
 }

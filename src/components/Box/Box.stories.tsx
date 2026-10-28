@@ -48,3 +48,10 @@ export const AcceptsStyle: Story = {
     await expect(getComputedStyle(box).paddingTop).toBe('16px')
   },
 }
+
+export const AsAnotherElement: Story = {
+  args: { as: 'div', 'data-testid': 'box-div' } as never,
+  play: async ({ canvas }) => {
+    await expect(canvas.getByTestId('box-div').tagName).toBe('DIV')
+  },
+}

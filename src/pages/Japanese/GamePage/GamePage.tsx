@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Navigate, useNavigate } from 'react-router'
-import { Button, ConfirmDialog, Input, ProgressBar, Tag } from '../../../components'
+import { Box, Button, ConfirmDialog, Input, ProgressBar, Tag, Typography } from '../../../components'
 import { WORD_MAX_MEANING_LENGTH, WORD_MAX_SOUND_LENGTH, type Word } from '../../../modules/japanese/data/words'
 import {
   expectedWordAnswer,
@@ -39,10 +39,20 @@ interface Submission {
 function WordFace({ word, session }: { word: Word; session: Extract<Session, { module: 'words' }> }) {
   return (
     <>
-      <span lang="ja" className={styles.wordChar} style={{ fontSize: wordFontSize(word.japanese) }}>
+      <Typography
+        as="span"
+        lang="ja"
+        weight="medium"
+        className={styles.wordChar}
+        style={{ fontSize: wordFontSize(word.japanese) }}
+      >
         {word.japanese}
-      </span>
-      {session.mode === 'sound' && <span className={styles.meaning}>{word.meaning}</span>}
+      </Typography>
+      {session.mode === 'sound' && (
+        <Typography as="span" size="lg" color="text-muted">
+          {word.meaning}
+        </Typography>
+      )}
     </>
   )
 }
@@ -102,9 +112,15 @@ function Round({ session }: { session: Session }) {
         corner={hasVariants && session.module === 'words' ? <VariantsHint word={word} mode={session.mode} /> : undefined}
       >
         {letter && (
-          <span lang="ja" className={styles.char}>
+          <Typography
+            as="span"
+            lang="ja"
+            weight="medium"
+            className={styles.char}
+            style={{ fontSize: '9.6rem', lineHeight: 1.1 }}
+          >
             {letter.char}
-          </span>
+          </Typography>
         )}
         {word && session.module === 'words' && <WordFace word={word} session={session} />}
       </FlashCard>
@@ -127,14 +143,14 @@ function Round({ session }: { session: Session }) {
         <Button type="submit" disabled={Boolean(submission)} fullWidth>
           Confirmar
         </Button>
-        <div role="status" className={styles.feedback} data-status={status}>
+        <Box as="div" role="status" className={styles.feedback} data-status={status}>
           {submission?.correct && '✓ Correto'}
           {submission && !submission.correct && (
             <>
               ✗ Incorreto — resposta: <strong>{submission.expected}</strong>
             </>
           )}
-        </div>
+        </Box>
       </form>
     </>
   )
@@ -160,8 +176,8 @@ export function GamePage() {
   }
 
   return (
-    <div className={styles.screen}>
-      <div className={styles.top}>
+    <Box as="div" className={styles.screen}>
+      <Box as="div" className={styles.top}>
         <Tag size="sm" color="blue">
           {moduleBadge(session)}
         </Tag>
@@ -174,10 +190,10 @@ export function GamePage() {
         <Button variant="ghost" color="gray" size="sm" onClick={() => setExitOpen(true)}>
           Sair
         </Button>
-      </div>
-      <section className={styles.panel}>
+      </Box>
+      <Box className={styles.panel}>
         <Round key={`${total}-${session.index}`} session={session} />
-      </section>
+      </Box>
       <ConfirmDialog
         open={exitOpen}
         onOpenChange={setExitOpen}
@@ -188,6 +204,6 @@ export function GamePage() {
         confirmColor="red"
         onConfirm={exit}
       />
-    </div>
+    </Box>
   )
 }
