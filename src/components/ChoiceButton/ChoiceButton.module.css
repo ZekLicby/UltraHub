@@ -48,6 +48,34 @@
   border-color: var(--color-border);
 }
 
+.choice[data-status='correct'] {
+  border-color: var(--color-green-solid);
+  background: var(--color-green-soft);
+  color: var(--color-green-soft-text);
+}
+
+.choice[data-status='incorrect'] {
+  border-color: var(--color-red-solid);
+  background: var(--color-red-soft);
+  color: var(--color-red-soft-text);
+}
+
+.choice:disabled {
+  cursor: default;
+}
+
+.choice:disabled:hover {
+  border-color: var(--color-border);
+}
+
+.choice:disabled[data-status='correct']:hover {
+  border-color: var(--color-green-solid);
+}
+
+.choice:disabled[data-status='incorrect']:hover {
+  border-color: var(--color-red-solid);
+}
+
 .choice[aria-current='step'] {
   border-color: var(--color-blue-solid);
   background: var(--color-blue-solid);

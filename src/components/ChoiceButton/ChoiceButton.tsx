@@ -6,6 +6,7 @@ export interface ChoiceButtonProps extends ComponentPropsWithRef<'button'> {
   selected?: boolean
   marked?: boolean
   current?: boolean
+  status?: 'correct' | 'incorrect'
 }
 
 export function ChoiceButton({
@@ -13,6 +14,7 @@ export function ChoiceButton({
   selected,
   marked,
   current,
+  status,
   type = 'button',
   className,
   ...rest
@@ -23,6 +25,7 @@ export function ChoiceButton({
       className={[styles.choice, className].filter(Boolean).join(' ')}
       data-shape={shape}
       data-marked={marked || undefined}
+      data-status={status}
       aria-pressed={selected}
       aria-current={current ? 'step' : undefined}
       {...rest}
