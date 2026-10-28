@@ -5,6 +5,7 @@ export interface InputProps extends ComponentPropsWithRef<'input'> {
   label: string
   helperText?: string
   error?: boolean | string
+  success?: boolean
   fullWidth?: boolean
   labelBackground?: string
 }
@@ -13,6 +14,7 @@ export function Input({
   label,
   helperText,
   error,
+  success,
   fullWidth,
   labelBackground,
   id,
@@ -34,6 +36,7 @@ export function Input({
       className={styles.field}
       data-full-width={fullWidth || undefined}
       data-invalid={error ? '' : undefined}
+      data-valid={success ? '' : undefined}
       data-disabled={disabled || undefined}
       style={fieldStyle}
     >

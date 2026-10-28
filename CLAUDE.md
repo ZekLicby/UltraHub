@@ -61,6 +61,14 @@ Fonte única dos valores de design; **sempre use esses tokens** em vez de valore
 - `src/mocks/`: dados mockados (notificações). O perfil ainda não tem página.
 - Bibliotecas adotadas: `lucide-react` (ícones) e `@radix-ui/react-popover` / `react-collapsible` / `react-dialog` (popovers, grupos expansíveis e bottom sheet). Popovers renderizam em portal, então testes de `play` devem usar `screen` para consultar o conteúdo.
 
+### Módulo Japonês (port do learnJP)
+
+- Lógica e dados em `src/modules/japanese/`: `data/` (grupos de hiragana e palavras, em TS), `game/` (`deck.ts`, `pools.ts`, `answers.ts` puros; `reducer.ts` + `GameProvider`/`gameContext.ts` com `useReducer` + Context; o provider envolve as rotas em `AppRoutes`).
+- Telas em `src/pages/Japanese/<Nome>/` (uma pasta por componente, como em `components/`), uma rota por tela (`japanesePaths` em `navigation/pages.ts`): módulos → letras/palavras → configuração (modo livre) ou aleatório → partida (`/practice/game`) → resultado. `/game` e `/result` sem sessão redirecionam para os módulos; as telas iniciais de Letras e Palavras limpam a sessão ao montar.
+- Componentes genéricos criados para o jogo: `ActionCard` (link, botão ou estático), `ToggleChip`, `Slider`, `ConfirmDialog` (`@radix-ui/react-alert-dialog`), `BackLink`; `Input` ganhou `success`.
+- O fluxo completo é testado em `src/pages/Japanese/JapaneseGame/JapaneseGame.stories.tsx` (o play lê o card na tela e responde pelo dataset).
+- A pasta `learnJP/` continua só como referência; só `localStorage` é permitido (o jogo não persiste nada além do tema).
+
 ### Storybook
 
 - Config em `.storybook/`; `preview.tsx` importa `../src/index.css` para que as stories usem o CSS real. Se o app ganhar providers, portais ou chamadas de rede, adicione-os ali (decorators/MSW) em vez de contornar em cada story.

@@ -13,6 +13,16 @@
   transition: grid-template-columns 220ms ease;
 }
 
+.immersive {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 100svh;
+  padding: var(--space-5);
+  background: var(--color-bg);
+}
+
 .content {
   box-sizing: border-box;
   padding: var(--space-5);

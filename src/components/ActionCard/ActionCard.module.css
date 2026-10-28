@@ -1,0 +1,87 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  box-sizing: border-box;
+  min-height: 16rem;
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-align: center;
+  text-decoration: none;
+  transition:
+    border-color 140ms ease,
+    transform 140ms ease;
+}
+
+.card[data-interactive] {
+  cursor: pointer;
+  font: inherit;
+}
+
+.card[aria-checked='true'] {
+  border-color: var(--color-blue-solid);
+  background: var(--color-blue-soft);
+}
+
+.card[data-interactive]:hover {
+  border-color: var(--color-blue-solid);
+  transform: translateY(-2px);
+}
+
+.card[data-interactive]:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.card[data-disabled] {
+  opacity: 0.55;
+}
+
+.badge {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+}
+
+.visual {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-blue-solid);
+  font-size: var(--font-size-2xl);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.visual svg {
+  width: 4.8rem;
+  height: 4.8rem;
+}
+
+.title {
+  color: var(--color-blue-solid);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.description {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-md);
+  line-height: 1.4;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+
+  .card[data-interactive]:hover {
+    transform: none;
+  }
+}

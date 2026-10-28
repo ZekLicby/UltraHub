@@ -54,7 +54,7 @@ export const colorRoles = (
     return {
       solid: s[name === 'gray' ? 700 : 600],
       'solid-hover': s[name === 'gray' ? 800 : 700],
-      soft: s[100],
+      soft: s[name === 'gray' ? 300 : 100],
       'soft-text': s[700],
       border: s[300],
     }
