@@ -6,6 +6,7 @@ export const breakpoints = {
 export const mediaQueries = {
   mobile: `(max-width: ${breakpoints.mobile}px)`,
   tablet: `(min-width: ${breakpoints.mobile + 1}px) and (max-width: ${breakpoints.tablet}px)`,
+  compact: `(max-width: ${breakpoints.tablet}px)`,
   desktop: `(min-width: ${breakpoints.tablet + 1}px)`,
 } as const
 

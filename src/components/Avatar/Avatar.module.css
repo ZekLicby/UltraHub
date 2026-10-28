@@ -1,0 +1,25 @@
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background: var(--color-blue-soft);
+  color: var(--color-blue-soft-text);
+}
+
+.avatar[data-size='sm'] { width: 3.2rem; height: 3.2rem; }
+.avatar[data-size='md'] { width: 4rem; height: 4rem; }
+.avatar[data-size='lg'] { width: 6.4rem; height: 6.4rem; }
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fallback {
+  width: 55%;
+  height: 55%;
+}

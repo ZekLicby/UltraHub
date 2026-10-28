@@ -1,10 +1,11 @@
-import { Typography } from './components'
+import { BrowserRouter } from 'react-router'
+import { AppRoutes } from './AppRoutes'
 
 function App() {
   return (
-    <main style={{ padding: 'var(--space-5)' }}>
-      <Typography variant="display">Ultra Hub</Typography>
-    </main>
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
   )
 }
 

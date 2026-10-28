@@ -1,0 +1,30 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  height: 100svh;
+  background: var(--color-bg);
+}
+
+.body {
+  display: grid;
+  flex: 1;
+  grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+  min-height: 0;
+  transition: grid-template-columns 220ms ease;
+}
+
+.content {
+  box-sizing: border-box;
+  padding: var(--space-5);
+  overflow-y: auto;
+}
+
+.shell[data-compact] .body {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .body {
+    transition: none;
+  }
+}

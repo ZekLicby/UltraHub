@@ -52,6 +52,15 @@ Fonte única dos valores de design; **sempre use esses tokens** em vez de valore
 
 `Box` (apenas um `<section>` que repassa props, incluindo `style`; sem props de layout), `Typography`, `Button`, `Input`, `Select`, `ProgressBar`, `WindowFrame` e `Tag`, cada um em sua pasta com `.tsx`, `.module.css` (quando precisa de estados CSS) e `.stories.tsx`. Eles leem variáveis CSS geradas dos tokens (`injectTokens()` em `main.tsx` e em `.storybook/preview.tsx`; tema escuro via sistema ou `data-theme` no `<html>`). Componentes novos devem seguir o mesmo padrão e usar só tokens. Levantamento e pendências em `docs/resultados/componentes-padronizaveis.md`.
 
+### Layout e navegação
+
+- `src/layout/`: uma pasta por componente (`src/layout/<Nome>/<Nome>.tsx`, `.module.css`, `.stories.tsx`) e um `index.ts` que reexporta todos, igual a `src/components/`. Peças: `AppShell` (estado de sidebar recolhida e página ativa), `Header`, `Sidebar`, `NotificationsMenu` e `ProfileMenu`. Com a sidebar recolhida, os textos **não são renderizados** (só ícones, com `aria-label`).
+- Em telas até 1024px (`mediaQueries.compact`, via `useMediaQuery`), a `Sidebar` sai e entra a `BottomNav` (barra inferior, como em React Native) com um botão de menu que abre o `MobileMenu` (bottom sheet com `@radix-ui/react-dialog`) listando módulos e páginas. O botão de recolher a sidebar também some. Novos itens da barra inferior entram em `BottomNav.tsx`.
+- Roteamento com `react-router`: `src/App.tsx` só monta o `BrowserRouter`; as rotas ficam em `src/AppRoutes.tsx` (o `AppShell` é a rota de layout e renderiza `<Outlet />`). Os itens de navegação são `NavLink` (o `aria-current="page"` vem da rota). As stories usam `MemoryRouter` (decorator em `.storybook/preview.tsx`); use `parameters.initialEntries` para abrir numa URL específica.
+- `src/navigation/pages.ts`: fonte única das páginas e grupos (Tech, Línguas), cada página com `path`. Uma nova tela = entrada ali + componente em `src/pages/` (hoje `PlaceholderPage`); título/descrição do header e rota derivam da mesma definição. Rotas desconhecidas caem em `NotFoundPage`. Em produção, o servidor precisa devolver `index.html` para qualquer caminho (SPA fallback).
+- `src/mocks/`: dados mockados (notificações). O perfil ainda não tem página.
+- Bibliotecas adotadas: `lucide-react` (ícones) e `@radix-ui/react-popover` / `react-collapsible` / `react-dialog` (popovers, grupos expansíveis e bottom sheet). Popovers renderizam em portal, então testes de `play` devem usar `screen` para consultar o conteúdo.
+
 ### Storybook
 
 - Config em `.storybook/`; `preview.tsx` importa `../src/index.css` para que as stories usem o CSS real. Se o app ganhar providers, portais ou chamadas de rede, adicione-os ali (decorators/MSW) em vez de contornar em cada story.
@@ -62,6 +71,7 @@ Fonte única dos valores de design; **sempre use esses tokens** em vez de valore
 
 ## Preferências de trabalho
 
+- **Persistência apenas em `localStorage`** até existirem atividades que implementem chamadas a backend. Não crie APIs, banco, cookies de sessão nem libs de dados remotos antes disso. Envolva leitura e escrita em `try/catch` (o storage pode estar bloqueado) e use chaves com prefixo `ultrahub-` (ex.: `ultrahub-theme`).
 - **Sem comentários no código**, a menos que uma regra muito específica seja implementada ou um aviso seja necessário (ex.: componente comentado que poderá ser reativado por decisão futura). Não use comentários para descrever o que o código já diz; prefira bons nomes. Exceção atual: o `font-size: 62.5%` em `src/index.css`.
 - **Todo o código em inglês**: identificadores (variáveis, funções, objetos, chaves, props, nomes de stories, classes CSS) e comentários. Só ficam em português os textos que o usuário final enxerga (labels, mensagens, conteúdo de exemplo nas stories) e a documentação em `docs/`/`CLAUDE.md`.
 - Ao apresentar opções para uma decisão de implementação, **sempre inclua possibilidades de bibliotecas já existentes** (com prós e contras) ao lado da solução feita à mão, para o usuário decidir.

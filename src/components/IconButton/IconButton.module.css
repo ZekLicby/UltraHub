@@ -1,0 +1,51 @@
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    background-color 140ms ease,
+    color 140ms ease;
+}
+
+.button[data-size='sm'] { width: 3.2rem; height: 3.2rem; }
+.button[data-size='md'] { width: 4rem; height: 4rem; }
+
+.button:hover:not(:disabled),
+.button[data-state='open'] {
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 1.6rem;
+  height: 1.6rem;
+  padding: 0 var(--space-1);
+  box-sizing: border-box;
+  border-radius: var(--radius-full);
+  background: var(--color-red-solid);
+  color: var(--color-on-solid);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  line-height: 1.6rem;
+  text-align: center;
+}
