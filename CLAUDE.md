@@ -15,7 +15,7 @@ Não há suíte de testes além das stories: cada story com `play` é um teste.
 
 ## Arquitetura
 
-O app React 19 + TypeScript + Vite em `src/` ainda é praticamente o template do Vite (`App.tsx` único, sem providers, rotas, fetch ou portais). O CSS global fica em `src/index.css` (tokens como variáveis CSS, incluindo dark mode via `prefers-color-scheme`) e o específico do `App` em `src/App.css`.
+O app React 19 + TypeScript + Vite em `src/` é um esqueleto: `App.tsx` mínimo (sem providers, rotas, fetch ou portais), tokens em `src/tokens/` e componentes em `src/components/`. O CSS global fica em `src/index.css` (só reset básico, base `1rem = 10px` e cores do `body` vindas dos tokens); o tema claro/escuro vem das variáveis injetadas por `injectTokens()`. Os arquivos de exemplo do template (Vite e Storybook) foram removidos.
 
 As pastas `heuristicasNielsen/`, `learnJP/` e `pooGame/` são projetos independentes em HTML/CSS/JS puro, sem relação com o app React. Estão no `.gitignore` e não devem ser adicionadas ao git; não fazem parte do build nem do lint do Vite.
 
@@ -58,7 +58,7 @@ Fonte única dos valores de design; **sempre use esses tokens** em vez de valore
 - As stories ficam colocadas ao lado dos componentes (`*.stories.tsx`) e são descobertas por `../src/**/*.stories.*` e `*.mdx`.
 - O projeto `storybook` do Vitest é definido em `vite.config.ts` (plugin `storybookTest`).
 - Stories geradas por IA usam `tags: ['ai-generated']`; mantenha `'needs-work'` junto enquanto não passarem no Vitest.
-- Em `play`, `canvas` e `userEvent` vêm dos argumentos; `expect` vem de `storybook/test`. `CssCheck` em `App.stories.tsx` valida valores computados para provar que o CSS global carregou — itens de container flex têm `display` bloqueado (`inline-flex` vira `flex`), então prefira outras propriedades.
+- Em `play`, `canvas` e `userEvent` vêm dos argumentos; `expect` vem de `storybook/test`.
 
 ## Preferências de trabalho
 
