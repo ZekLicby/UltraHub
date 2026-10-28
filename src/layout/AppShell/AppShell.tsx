@@ -1,9 +1,10 @@
-import { useState, type CSSProperties } from 'react'
+import { useEffect, useState, type CSSProperties } from 'react'
 import { Outlet, useLocation } from 'react-router'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
 import type { NotificationItem } from '../../mocks/notifications'
 import { findPageByPath, notFoundPage, type NavigationGroup } from '../../navigation/pages'
 import { mediaQueries } from '../../tokens'
+import { exitFullscreen } from '../../utils/fullscreen'
 import { BottomNav } from '../BottomNav/BottomNav'
 import { Header } from '../Header/Header'
 import type { UserInfo } from '../ProfileMenu/ProfileMenu'
@@ -21,6 +22,18 @@ export function AppShell({ groups, notifications, user }: AppShellProps) {
   const compact = useMediaQuery(mediaQueries.compact)
   const { pathname } = useLocation()
   const page = findPageByPath(pathname) ?? notFoundPage
+
+  useEffect(() => {
+    if (!page.immersive) exitFullscreen()
+  }, [page.immersive])
+
+  if (page.immersive) {
+    return (
+      <main className={styles.immersive}>
+        <Outlet />
+      </main>
+    )
+  }
 
   return (
     <div

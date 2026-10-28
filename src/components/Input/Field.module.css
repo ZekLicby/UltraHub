@@ -98,6 +98,14 @@ input.control:not(:placeholder-shown) ~ .label,
   color: var(--color-red-solid);
 }
 
+.field[data-valid] .control {
+  border-color: var(--color-green-solid);
+}
+
+.field[data-valid] .label {
+  color: var(--color-green-solid);
+}
+
 .field[data-disabled] {
   opacity: 0.55;
 }

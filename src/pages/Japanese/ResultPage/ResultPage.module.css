@@ -1,0 +1,93 @@
+.summary {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.stat {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+}
+
+.stat[data-kind='correct'] {
+  background: var(--color-green-soft);
+  color: var(--color-green-soft-text);
+}
+
+.stat[data-kind='incorrect'] {
+  background: var(--color-red-soft);
+  color: var(--color-red-soft-text);
+}
+
+.statValue {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.statLabel {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.tableWrap {
+  max-height: 40rem;
+  overflow: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-md);
+}
+
+.table th {
+  position: sticky;
+  top: 0;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  text-align: left;
+}
+
+.table td {
+  padding: var(--space-2) var(--space-3);
+  border-top: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+.table tr[data-incorrect] td {
+  background: var(--color-red-soft);
+}
+
+.char {
+  font-size: var(--font-size-xl);
+}
+
+.expected {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.markCorrect {
+  color: var(--color-green-solid);
+  font-weight: 700;
+}
+
+.markIncorrect {
+  color: var(--color-red-solid);
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}

@@ -56,6 +56,24 @@ export const OpeningAnUrlDirectlyShowsThatPage: Story = {
   },
 }
 
+export const JapanesePageHasActivitiesAndStudySections: Story = {
+  parameters: { initialEntries: ['/languages/japanese'] },
+  play: async ({ canvas, userEvent }) => {
+    await expect(canvas.getByRole('heading', { name: 'Suas atividades' })).toBeVisible()
+    await expect(canvas.getByRole('heading', { name: 'Estude e pratique' })).toBeVisible()
+    await expect(canvas.getByText('Estude alfabetos, palavras e textos em japonês.')).toBeVisible()
+    await expect(canvas.queryByRole('link', { name: /Estude alfabetos/ })).toBeNull()
+    await expect(canvas.getByText('Em breve')).toBeVisible()
+    await expect(canvas.getByText('Estude alfabetos, palavras e textos em japonês.').closest('[aria-disabled]')).not.toBeNull()
+    await userEvent.click(canvas.getByRole('link', { name: 'Pratique o que você estudou' }))
+    await expect(canvas.getByRole('heading', { name: 'Praticar japonês' })).toBeVisible()
+    await expect(canvas.getByRole('heading', { name: 'O que você quer praticar?' })).toBeVisible()
+    await expect(canvas.getByRole('link', { name: 'Japonês' })).toHaveAttribute('aria-current', 'page')
+    await expect(canvas.getByRole('heading', { name: 'Alfabeto' })).toBeVisible()
+    await expect(canvas.getByRole('heading', { name: 'Palavras' })).toBeVisible()
+  },
+}
+
 export const UnknownUrlShowsNotFound: Story = {
   parameters: { initialEntries: ['/nao-existe'] },
   play: async ({ canvas, userEvent }) => {

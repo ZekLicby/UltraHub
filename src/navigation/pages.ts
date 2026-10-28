@@ -1,4 +1,4 @@
-import { Atom, Code, House, Landmark, Languages, type LucideIcon } from 'lucide-react'
+import { Atom, Code, House, Landmark, Languages, Pencil, type LucideIcon } from 'lucide-react'
 
 export interface PageDefinition {
   id: string
@@ -7,6 +7,7 @@ export interface PageDefinition {
   icon: LucideIcon
   title: string
   description: string
+  immersive?: boolean
 }
 
 export interface NavigationGroup {
@@ -58,6 +59,43 @@ export const navigation: NavigationGroup[] = [
   },
 ]
 
+const practiceBase = '/languages/japanese/practice'
+
+export const japanesePaths = {
+  practice: practiceBase,
+  lettersHome: `${practiceBase}/letters`,
+  lettersConfig: `${practiceBase}/letters/config`,
+  wordsHome: `${practiceBase}/words`,
+  wordsConfig: `${practiceBase}/words/config`,
+  game: `${practiceBase}/game`,
+  result: `${practiceBase}/result`,
+} as const
+
+const detailPage = (
+  id: string,
+  path: string,
+  title: string,
+  description: string,
+  immersive = false,
+): PageDefinition => ({ id, path, label: title, icon: Pencil, title, description, immersive })
+
+export const japanesePracticePage = detailPage(
+  'japanese-practice',
+  japanesePaths.practice,
+  'Praticar japonês',
+  'Escolha o módulo e treine hiragana e palavras.',
+)
+
+export const japaneseDetailPages: PageDefinition[] = [
+  japanesePracticePage,
+  detailPage('japanese-letters', japanesePaths.lettersHome, 'Letras', 'Pratique hiragana, um caractere por vez.'),
+  detailPage('japanese-letters-config', japanesePaths.lettersConfig, 'Letras: modo livre', 'Escolha os grupos e a quantidade de cards.'),
+  detailPage('japanese-words', japanesePaths.wordsHome, 'Palavras', 'Pratique palavras simples escritas em hiragana.'),
+  detailPage('japanese-words-config', japanesePaths.wordsConfig, 'Palavras: modo livre', 'Escolha as categorias e a quantidade de palavras.'),
+  detailPage('japanese-game', japanesePaths.game, 'Partida', 'Responda os cards um a um.', true),
+  detailPage('japanese-result', japanesePaths.result, 'Resultado', 'Revise seus acertos e erros.'),
+]
+
 export const notFoundPage: PageDefinition = {
   id: 'not-found',
   path: '*',
@@ -70,6 +108,7 @@ export const notFoundPage: PageDefinition = {
 export const allPages: PageDefinition[] = [
   homePage,
   ...navigation.flatMap((group) => group.pages),
+  ...japaneseDetailPages,
 ]
 
 export const findPageByPath = (pathname: string): PageDefinition | undefined => {

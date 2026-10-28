@@ -1,0 +1,26 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.slider {
+  flex: 1;
+  min-width: 0;
+  accent-color: var(--color-blue-solid);
+  cursor: pointer;
+}
+
+.slider:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 4px;
+}
+
+.value {
+  flex-shrink: 0;
+  min-width: 10rem;
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  text-align: right;
+}
