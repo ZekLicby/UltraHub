@@ -17,6 +17,10 @@ import { ResultPage } from './Japanese/ResultPage/ResultPage'
 import { WordsConfigPage } from './Japanese/WordsConfigPage/WordsConfigPage'
 import { WordsHomePage } from './Japanese/WordsHomePage/WordsHomePage'
 import { PlaceholderPage } from './PlaceholderPage'
+import { PromptingGamePage } from './Prompting/PromptingGamePage/PromptingGamePage'
+import { PromptingPage } from './Prompting/PromptingPage/PromptingPage'
+import { PromptingPracticePage } from './Prompting/PromptingPracticePage/PromptingPracticePage'
+import { PromptingResultPage } from './Prompting/PromptingResultPage/PromptingResultPage'
 
 export const pageElements: Record<string, ReactElement> = {
   ...Object.fromEntries(
@@ -31,6 +35,10 @@ export const pageElements: Record<string, ReactElement> = {
   'heuristics-practice': <HeuristicsPracticePage />,
   'heuristics-game': <HeuristicsGamePage />,
   'heuristics-result': <HeuristicsResultPage />,
+  prompting: <PromptingPage />,
+  'prompting-practice': <PromptingPracticePage />,
+  'prompting-game': <PromptingGamePage />,
+  'prompting-result': <PromptingResultPage />,
   japanese: <JapanesePage />,
   'japanese-practice': <JapanesePracticePage />,
   'japanese-letters': <LettersHomePage />,

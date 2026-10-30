@@ -57,7 +57,7 @@ Fonte única dos valores de design; **sempre use esses tokens** em vez de valore
 - `src/layout/`: uma pasta por componente (`src/layout/<Nome>/<Nome>.tsx`, `.module.css`, `.stories.tsx`) e um `index.ts` que reexporta todos, igual a `src/components/`. Peças: `AppShell` (estado de sidebar recolhida e página ativa), `Header`, `Sidebar`, `NotificationsMenu` e `ProfileMenu`. Com a sidebar recolhida, os textos **não são renderizados** (só ícones, com `aria-label`).
 - Em telas até 1024px (`mediaQueries.compact`, via `useMediaQuery`), a `Sidebar` sai e entra a `BottomNav` (barra inferior, como em React Native) com um botão de menu que abre o `MobileMenu` (bottom sheet com `@radix-ui/react-dialog`) listando módulos e páginas. O botão de recolher a sidebar também some. Novos itens da barra inferior entram em `BottomNav.tsx`.
 - Roteamento com `react-router`: `src/App.tsx` só monta o `BrowserRouter`; as rotas ficam em `src/AppRoutes.tsx` (o `AppShell` é a rota de layout e renderiza `<Outlet />`). Os itens de navegação são `NavLink` (o `aria-current="page"` vem da rota). As stories usam `MemoryRouter` (decorator em `.storybook/preview.tsx`); use `parameters.initialEntries` para abrir numa URL específica.
-- `src/navigation/pages.ts`: fonte única das páginas e grupos (Tech, Línguas), cada página com `path`. Uma nova tela = entrada ali + componente em `src/pages/` (hoje `PlaceholderPage`); título/descrição do header e rota derivam da mesma definição. Rotas desconhecidas caem em `NotFoundPage`. Em produção, o servidor precisa devolver `index.html` para qualquer caminho (SPA fallback).
+- `src/navigation/pages.ts`: fonte única das páginas e grupos (Tech, Design, Línguas), cada página com `path`. Uma nova tela = entrada ali + componente em `src/pages/` (hoje `PlaceholderPage`); título/descrição do header e rota derivam da mesma definição. Rotas desconhecidas caem em `NotFoundPage`. Em produção, o servidor precisa devolver `index.html` para qualquer caminho (SPA fallback).
 - `src/mocks/`: dados mockados (notificações). O perfil ainda não tem página.
 - Bibliotecas adotadas: `lucide-react` (ícones) e `@radix-ui/react-popover` / `react-collapsible` / `react-dialog` (popovers, grupos expansíveis e bottom sheet). Popovers renderizam em portal, então testes de `play` devem usar `screen` para consultar o conteúdo.
 
@@ -71,7 +71,7 @@ Fonte única dos valores de design; **sempre use esses tokens** em vez de valore
 
 ### Módulo Heurísticas de Nielsen (port do heuristicasNielsen)
 
-- Página na sidebar (grupo Tech): `/tech/heuristics` (`ModuleHome`: Suas atividades + Estude e pratique), `/practice` (intro, resumo das heurísticas, quantidade 5–40), `/game` (imersiva, tela cheia) e `/result` (pontuação + gabarito completo).
+- Página na sidebar (grupo Design): `/design/heuristics` (`ModuleHome`: Suas atividades + Estude e pratique), `/practice` (intro, resumo das heurísticas, quantidade 5–40), `/game` (imersiva, tela cheia) e `/result` (pontuação + gabarito completo).
 - Lógica e dados em `src/modules/heuristics/`: `data/` (as 10 heurísticas e 40 perguntas, em TS, chaves em inglês), `game/` (`rounds.ts` monta as rodadas positivas, negativas e diretas; `reducer.ts` + `HeuristicsGameProvider`/`gameContext.ts`) e `mockups/` (os 40 mockups viraram componentes React sobre `WindowFrame`, com CSS por tokens, então seguem o tema claro/escuro).
 - Telas em `src/pages/Heuristics/<Nome>/`; o fluxo é testado em `HeuristicsGame/HeuristicsGame.stories.tsx` e os mockups/banco de perguntas em `mockups/Mockups.stories.tsx`.
 - Compartilhados com o módulo Japonês: `PracticeScreen`, `ModuleHome`, `Modal` (`components/`) e `utils/shuffle.ts`. Nas respostas, o jogo não mostra certo/errado durante a partida (só no gabarito); é possível voltar e trocar a resposta pelos quadradinhos.
@@ -82,6 +82,14 @@ Fonte única dos valores de design; **sempre use esses tokens** em vez de valore
 - Lógica e dados em `src/modules/codeQuest/`: `data/questions.ts` (180 perguntas, 60 por categoria), `game/` (`quiz.ts` filtra por categoria/dificuldade e monta a sessão com alternativas embaralhadas e ids estáveis; `labels.ts`; `reducer.ts` + `QuizProvider`/`quizContext.ts`). A sessão guarda a `category`; `/game` e `/result` de outra categoria ou sem sessão redirecionam para o `/practice`.
 - Telas em `src/pages/Quiz/<Nome>/` (recebem `category` por prop); fluxo testado em `QuizGame/QuizGame.stories.tsx` (o play lê a pergunta na tela e responde pelo dataset).
 - Componentes genéricos criados: `CodeBlock`, `Callout` (dica/feedback), `RadioCardGroup` (radios nativos como cartões), `Divider`; `ChoiceButton` ganhou `status` (`correct`/`incorrect`).
+
+### Módulo Prompting (quiz de tipos de prompt)
+
+- Página na sidebar (grupo Tech): `/tech/prompting` (`ModuleHome`; o card de estudo segue "Em breve"), `/practice` (só a quantidade: 5, 10, 15 ou 20, sem dificuldade nem modos), `/game` (imersiva, tela cheia, sem tags de assunto e dificuldade) e `/result` (treinar erros, novo quiz e voltar ao módulo). Caminhos em `promptingPaths` e páginas de detalhe em `promptingDetailPages` (`navigation/pages.ts`).
+- Lógica e dados em `src/modules/prompting/`: `data/promptTypes.ts` (20 tipos, nomes em inglês, com sigla em CoT, ToT, RAG e ReAct), `data/questions.ts` (40 perguntas, 2 por tipo: uma `example` com o prompt e outra `description`; cada uma com 3 alternativas erradas escolhidas à mão, dica e explicação; os diagramas são texto com setas em `CodeBlock`) e `game/` (`quiz.ts` embaralha as alternativas com ids estáveis; `reducer.ts` + `PromptingProvider`/`promptingContext.ts`, sem modo, categoria ou dificuldade).
+- Telas em `src/pages/Prompting/<Nome>/`, parecidas com as de `Quiz/`, e reaproveitando `ALLOWED_QUESTION_COUNTS`, `optionLetter`, `calculatePercentage` e `getClassification` do `codeQuest`. O fluxo é testado em `PromptingGame/PromptingGame.stories.tsx` e o banco de perguntas em `modules/prompting/data/QuestionBank.stories.tsx`.
+- `ModuleHome` aceita `practiceDisabled` (card de prática desabilitado, com a tag "Em breve") e `practiceTo` opcional.
+- Em novas perguntas, o enunciado, o exemplo e a dica não podem citar o nome do tipo da resposta (a story do banco valida isso).
 
 ### Storybook
 

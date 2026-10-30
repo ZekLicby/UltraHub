@@ -3,6 +3,7 @@ import { AppShell } from './layout'
 import { QuizProvider } from './modules/codeQuest/game/QuizProvider'
 import { HeuristicsGameProvider } from './modules/heuristics/game/HeuristicsGameProvider'
 import { GameProvider } from './modules/japanese/game/GameProvider'
+import { PromptingProvider } from './modules/prompting/game/PromptingProvider'
 import { mockNotifications } from './mocks/notifications'
 import { allPages, homePage, navigation } from './navigation/pages'
 import { HomePage } from './pages/HomePage'
@@ -16,21 +17,23 @@ export function AppRoutes() {
     <GameProvider>
       <HeuristicsGameProvider>
         <QuizProvider>
-          <Routes>
-            <Route element={<AppShell groups={navigation} notifications={mockNotifications} user={user} />}>
-              <Route index element={<HomePage />} />
-              {allPages
-                .filter((page) => page.id !== homePage.id)
-                .map((page) => (
-                  <Route
-                    key={page.id}
-                    path={page.path}
-                    element={pageElements[page.id] ?? placeholderElement}
-                  />
-                ))}
-              <Route path="*" element={<NotFoundPage />} />
-            </Route>
-          </Routes>
+          <PromptingProvider>
+            <Routes>
+              <Route element={<AppShell groups={navigation} notifications={mockNotifications} user={user} />}>
+                <Route index element={<HomePage />} />
+                {allPages
+                  .filter((page) => page.id !== homePage.id)
+                  .map((page) => (
+                    <Route
+                      key={page.id}
+                      path={page.path}
+                      element={pageElements[page.id] ?? placeholderElement}
+                    />
+                  ))}
+                <Route path="*" element={<NotFoundPage />} />
+              </Route>
+            </Routes>
+          </PromptingProvider>
         </QuizProvider>
       </HeuristicsGameProvider>
     </GameProvider>
