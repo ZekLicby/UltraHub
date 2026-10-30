@@ -1,6 +1,6 @@
 import { QUIZ_CATEGORIES } from '../modules/codeQuest/categories'
 import type { QuestionCategory } from '../modules/codeQuest/data/questions'
-import { Atom, Code, House, Landmark, Languages, Pencil, Puzzle, type LucideIcon } from 'lucide-react'
+import { Atom, Code, House, Landmark, Languages, Palette, Pencil, Puzzle, type LucideIcon } from 'lucide-react'
 
 export interface PageDefinition {
   id: string
@@ -42,14 +42,6 @@ export const navigation: NavigationGroup[] = [
         title: 'React',
         description: 'Exercícios e revisão dos conceitos de React.',
       },
-      {
-        id: 'heuristics',
-        path: '/tech/heuristics',
-        label: 'Heurísticas',
-        icon: Puzzle,
-        title: 'Heurísticas de Nielsen',
-        description: 'Aprenda a reconhecer as 10 heurísticas de usabilidade.',
-      },
       ...QUIZ_CATEGORIES.map((category) => ({
         id: category.id,
         path: `/tech/${category.id}`,
@@ -58,6 +50,21 @@ export const navigation: NavigationGroup[] = [
         title: category.title,
         description: category.description,
       })),
+    ],
+  },
+  {
+    id: 'design',
+    label: 'Design',
+    icon: Palette,
+    pages: [
+      {
+        id: 'heuristics',
+        path: '/design/heuristics',
+        label: 'Heurísticas',
+        icon: Puzzle,
+        title: 'Heurísticas de Nielsen',
+        description: 'Aprenda a reconhecer as 10 heurísticas de usabilidade.',
+      },
     ],
   },
   {
@@ -89,7 +96,7 @@ export const japanesePaths = {
   result: `${practiceBase}/result`,
 } as const
 
-const heuristicsBase = '/tech/heuristics'
+const heuristicsBase = '/design/heuristics'
 
 export const heuristicsPaths = {
   home: heuristicsBase,
