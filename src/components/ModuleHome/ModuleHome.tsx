@@ -9,13 +9,15 @@ import styles from './ModuleHome.module.css'
 export interface ModuleHomeProps {
   studyDescription: string
   practiceDescription?: string
-  practiceTo: string
+  practiceTo?: string
+  practiceDisabled?: boolean
 }
 
 export function ModuleHome({
   studyDescription,
   practiceDescription = 'Pratique o que você estudou',
   practiceTo,
+  practiceDisabled,
 }: ModuleHomeProps) {
   return (
     <Box as="div" className={styles.home}>
@@ -41,7 +43,18 @@ export function ModuleHome({
           >
             {studyDescription}
           </ActionCard>
-          <ActionCard visual={<Pencil />} to={practiceTo}>
+          <ActionCard
+            visual={<Pencil />}
+            to={practiceTo}
+            disabled={practiceDisabled}
+            badge={
+              practiceDisabled && (
+                <Tag size="sm" color="gray">
+                  Em breve
+                </Tag>
+              )
+            }
+          >
             {practiceDescription}
           </ActionCard>
         </CardGrid>

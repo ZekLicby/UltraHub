@@ -1,6 +1,6 @@
 import { QUIZ_CATEGORIES } from '../modules/codeQuest/categories'
 import type { QuestionCategory } from '../modules/codeQuest/data/questions'
-import { Atom, Code, House, Landmark, Languages, Palette, Pencil, Puzzle, type LucideIcon } from 'lucide-react'
+import { Atom, Code, House, Landmark, Languages, MessageSquareText, Palette, Pencil, Puzzle, type LucideIcon } from 'lucide-react'
 
 export interface PageDefinition {
   id: string
@@ -41,6 +41,14 @@ export const navigation: NavigationGroup[] = [
         icon: Atom,
         title: 'React',
         description: 'Exercícios e revisão dos conceitos de React.',
+      },
+      {
+        id: 'prompting',
+        path: '/tech/prompting',
+        label: 'Prompting',
+        icon: MessageSquareText,
+        title: 'Prompting',
+        description: 'Aprenda os tipos de prompt: zero-shot, one-shot, few-shot e mais.',
       },
       ...QUIZ_CATEGORIES.map((category) => ({
         id: category.id,
@@ -105,7 +113,16 @@ export const heuristicsPaths = {
   result: `${heuristicsBase}/result`,
 } as const
 
-export const quizPaths = (category: QuestionCategory) => {
+const promptingBase = '/tech/prompting'
+
+export const promptingPaths = {
+  home: promptingBase,
+  practice: `${promptingBase}/practice`,
+  game: `${promptingBase}/game`,
+  result: `${promptingBase}/result`,
+} as const
+
+export const quizPaths =(category: QuestionCategory) => {
   const base = `/tech/${category}`
   return {
     home: base,
@@ -146,7 +163,13 @@ export const heuristicsDetailPages: PageDefinition[] = [
   detailPage('heuristics-result', heuristicsPaths.result, 'Resultado', 'Veja sua pontuação e o gabarito completo.'),
 ]
 
-export const quizDetailPages: PageDefinition[] = QUIZ_CATEGORIES.flatMap((category) => {
+export const promptingDetailPages: PageDefinition[] = [
+  detailPage('prompting-practice', promptingPaths.practice, 'Prompting: escolha seu treino', 'Escolha a quantidade de perguntas do quiz.'),
+  detailPage('prompting-game', promptingPaths.game, 'Quiz', 'Identifique o tipo de prompt de cada pergunta.', true),
+  detailPage('prompting-result', promptingPaths.result, 'Resultado', 'Veja seu desempenho e treine seus erros.'),
+]
+
+export const quizDetailPages:PageDefinition[] = QUIZ_CATEGORIES.flatMap((category) => {
   const paths = quizPaths(category.id)
   return [
     detailPage(`${category.id}-practice`, paths.practice, `${category.label}: escolha seu treino`, 'Escolha um modo pronto ou monte seu próprio quiz.'),
@@ -169,6 +192,7 @@ export const allPages: PageDefinition[] = [
   ...navigation.flatMap((group) => group.pages),
   ...japaneseDetailPages,
   ...heuristicsDetailPages,
+  ...promptingDetailPages,
   ...quizDetailPages,
 ]
 
